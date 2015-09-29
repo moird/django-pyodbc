@@ -1,5 +1,7 @@
 try:
-    from django.db.backends.base.introspection import BaseDatabaseIntrospection
+    from django.db.backends.base.introspection import (
+    BaseDatabaseIntrospection, TableInfo, FieldInfo
+    )
 except:
     # import location prior to Django 1.8
     from django.db.backends import BaseDatabaseIntrospection
@@ -45,7 +47,7 @@ class DatabaseIntrospection(BaseDatabaseIntrospection):
             cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = 'dbo'")
         else:
             cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
-        return [row[0] for row in cursor.fetchall()]
+        return [TableInfo(row[0], row[1][0]) for row in cursor.fetchall()]
 
         # Or pyodbc specific:
         #return [row[2] for row in cursor.tables(tableType='TABLE')]
