@@ -3,3 +3,6 @@
 build/
 dist/
 django_pyodbc.egg-info/
+
+.idea
+.vagrant
